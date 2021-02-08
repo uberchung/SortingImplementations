@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class App {
+public class Application {
 
     public static List<Integer> readFromFile()
     {
