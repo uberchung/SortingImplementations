@@ -83,36 +83,156 @@ public class Application {
         return array;
     }
 
+    public static void clearFileData() throws IOException {
+        File file = new File("array.txt");
+        if (!file.createNewFile())
+        {
+            try {
+                FileWriter myWriter = new FileWriter("array.txt");
+                myWriter.write("");
+                System.out.println("File has been cleared!");
+                myWriter.close();
+            } catch (IOException e) {
+                System.out.println("An unexpected error has occurred!");
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public static void printMenu()
+    {
+        System.out.println("""
+                    Please enter the corresponding value to the action you wish to perform
+                    1. Generate numbers and store to a file.
+                    2. Bubble Sort file with numbers.
+                    3. Quick Sort file with numbers.
+                    4. Selection Sort file with numbers.
+                    5. Heap Sort file with numbers.
+                    6. Insertion Sort file with numbers.
+                    7. Merge Sort file with numbers.
+                    
+                    9. Clear file data.
+                    0. Exit.
+                    """);
+    }
+
     public static void main(String[] args) throws IOException {
 	// write your code here
+        Scanner scan = new Scanner(System.in);
         List<Integer> list;
         int [] array;
+        boolean flag = true;
 
-        array = generateNumbers(100);
-        saveToFile(array);
+        while (flag) {
+            printMenu();
+            int opt = scan.nextInt();
 
-        list = readFromFile();
-        BubbleSort.sort(list);
-        System.out.println(list);
+            switch (opt) {
+                case 1 -> {
+                    System.out.println("How many number would you like to generate? ");
+                    int numbers = scan.nextInt();
+                    array = generateNumbers(numbers);
+                    saveToFile(array);
+                    System.out.println(numbers + " numbers were generated.");
+                }
 
-        list = readFromFile();
-        QuickSort.sort(list, 0, list.size()-1);
-        System.out.println(list);
+                case 2 -> {
+                    double[] attempt = new double[5];
+                    System.out.println("Bubble Sorting " + readFromFile().size() + " numbers");
+                    for (int i = 0; i < 5; i++)
+                    {
+                        list = readFromFile();
+                        double startTime = System.nanoTime();
+                        BubbleSort.sort(list);
+                        double stopTime = System.nanoTime();
+                        attempt[i] = (stopTime - startTime)/1000000;
+                        System.out.println("Attempt # "+ (i+1));
+                        System.out.println(attempt[i]);
+                    }
+                }
 
-        list = readFromFile();
-        SelectionSort.sort(list);
-        System.out.println(list);
+                case 3 ->{
+                    double[] attempt = new double[5];
+                    System.out.println("Quick Sorting " + readFromFile().size() + " numbers");
+                    for (int i = 0; i < 5; i++)
+                    {
+                        list = readFromFile();
+                        double startTime = System.nanoTime();
+                        QuickSort.sort(list, 0, list.size()-1);
+                        double stopTime = System.nanoTime();
+                        attempt[i] = (stopTime - startTime)/1000000;
+                        System.out.println("Attempt # "+ (i+1));
+                        System.out.println(attempt[i]);
+                    }
+                }
 
-        list = readFromFile();
-        HeapSort.sort(list);
-        System.out.println(list);
+                case 4 ->{
+                    double[] attempt = new double[5];
+                    System.out.println("Selection Sorting " + readFromFile().size() + " numbers");
+                    for (int i = 0; i < 5; i++)
+                    {
+                        list = readFromFile();
+                        double startTime = System.nanoTime();
+                        SelectionSort.sort(list);
+                        double stopTime = System.nanoTime();
+                        attempt[i] = (stopTime - startTime)/1000000;
+                        System.out.println("Attempt # "+ (i+1));
+                        System.out.println(attempt[i]);
+                    }
+                }
 
-        list = readFromFile();
-        InsertionSort.sort(list);
-        System.out.println(list);
+                case 5 ->{
+                    double[] attempt = new double[5];
+                    System.out.println("Heap Sorting " + readFromFile().size() + " numbers");
+                    for (int i = 0; i < 5; i++)
+                    {
+                        list = readFromFile();
+                        double startTime = System.nanoTime();
+                        HeapSort.sort(list);
+                        double stopTime = System.nanoTime();
+                        attempt[i] = (stopTime - startTime)/1000000;
+                        System.out.println("Attempt # "+ (i+1));
+                        System.out.println(attempt[i]);
+                    }
+                }
 
-        list = readFromFile();
-        list = MergeSort.sort(list);
-        System.out.println(list);
+                case 6->{
+                    double[] attempt = new double[5];
+                    System.out.println("Insertion Sorting " + readFromFile().size() + " numbers");
+                    for (int i = 0; i < 5; i++)
+                    {
+                        list = readFromFile();
+                        double startTime = System.nanoTime();
+                        InsertionSort.sort(list);
+                        double stopTime = System.nanoTime();
+                        attempt[i] = (stopTime - startTime)/1000000;
+                        System.out.println("Attempt # "+ (i+1));
+                        System.out.println(attempt[i]);
+                    }
+                }
+
+                case 7 ->{
+                    double[] attempt = new double[5];
+                    System.out.println("Merge Sorting " + readFromFile().size() + " numbers");
+                    for (int i = 0; i < 5; i++)
+                    {
+                        list = readFromFile();
+                        double startTime = System.nanoTime();
+                        MergeSort.sort(list);
+                        double stopTime = System.nanoTime();
+                        attempt[i] = (stopTime - startTime)/1000000;
+                        System.out.println("Attempt # "+ (i+1));
+                        System.out.println(attempt[i]);
+                    }
+                }
+                case 9 -> clearFileData();
+                case 0 ->{
+                    System.out.println("Exiting program...");
+                    flag = false;
+                }
+                default -> flag = false;
+            }
+        }
     }
 }
